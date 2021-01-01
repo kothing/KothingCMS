@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: 
+Disallow: /Admin/
+Disallow: /Home/
+Disallow: /backup/
+Disallow: /cache/
+Disallow: /Framework/
+Disallow: /install/
+Disallow: /Conf/
