@@ -693,7 +693,7 @@ INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('6','Commen
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('7','Screen','网站筛选','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('8','Order','会员下单','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('9','Mypay','网站支付','0','1');
-INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('10','Jzpay','Kothing支付','0','1');
+INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('10','Kpay','Kothing支付','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('11','Tags','TAG标签','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('12','Wechat','微信模块','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('13','Common/vercode','验证码生成','1','1');
@@ -969,7 +969,7 @@ INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('3'
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('4','web_desc','网站SEO描述', NULL,'0','KothingCMS');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('5','web_js','统计代码', NULL,'0', NULL);
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('6','web_copyright','底部版权', NULL,'0','@2020-2099');
-INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('7','web_beian','备案号', NULL,'0','X备00001号');
+INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('7','web_beian','备案号', NULL,'0','京ICP00001号');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('8','web_tel','公司电话', NULL,'0','0001-12345');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('9','web_tel_400','400电话', NULL,'0','400-0000-000');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('10','web_qq','公司QQ', NULL,'0','12345678');

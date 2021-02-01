@@ -19,11 +19,10 @@
 						<div class="border p-3" style="overflow-y:auto;height:300px;">
 							<div class="m-3">
 								<div class="card-title">
-									<h2>前面的话</h2>
+									<h2>前言</h2>
 								</div>
 								<div class="card-text">
-								  <p>欢迎您使用KothingCMS, 希望我们的建站系统能够让您在使用的时候感到快乐~</p>
-								  <p>郑重承诺KothingCMS程序无后门，无限制，全开源，不收授权费，长期运营至死方休。</p>
+								  <p>欢迎您使用开源内容管理系统KothingCMS！</p>
 								  <h2>安装须知</h2>
 								  <p>KothingCMS受到法律和国际公约保护。使用者：无论个人或组织、盈利与否、用途如何（包括以学习和研究为目的），均需仔细阅读本协议，在理解、同意、并遵守本协议的全部条款后，方可开始使用 KothingCMS 软件。</p>
 								  <h3>I. 权利</h3>

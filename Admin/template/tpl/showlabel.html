@@ -381,18 +381,18 @@
 					  <!--文章-->
 					  <div class="layui-tab-item">
 						 <div class="layui-form-item layui-form-text">
-						 <blockquote class="layui-elem-quote">$jz变量可以输出所有内容</blockquote>
+						 <blockquote class="layui-elem-quote">$kt变量可以输出所有内容</blockquote>
 						 <blockquote class="layui-elem-quote">内容页也可以使用$type调用栏目所有内容的哦~</blockquote>
-						 <pre class="layui-code">文章标题：{!--$jz['title']--}
+						 <pre class="layui-code">文章标题：{!--$kt['title']--}
 						 当前位置：{!--$positions--}
-						 文章SEO标题：{!--$jz['seo_title']--}
-						 文章关键词：{!--$jz['keywords']--}
-						 文章点击量：{!--$jz['hits']--}自增操作{!--fun incrData('article',$jz['id'],'hits')--}
-						 文章缩略图：{!--$jz['litpic']--}
-						 文章简介：{!--$jz['description']--}
-						 文章内容：{!--$jz['body']--}
-						 文章作者：{!--fun adminInfo($jz['userid'],'name')--}
-						 文章更新时间：{!--fun date('Y-m-d',$jz['addtime'])--}
+						 文章SEO标题：{!--$kt['seo_title']--}
+						 文章关键词：{!--$kt['keywords']--}
+						 文章点击量：{!--$kt['hits']--}自增操作{!--fun incrData('article',$kt['id'],'hits')--}
+						 文章缩略图：{!--$kt['litpic']--}
+						 文章简介：{!--$kt['description']--}
+						 文章内容：{!--$kt['body']--}
+						 文章作者：{!--fun adminInfo($kt['userid'],'name')--}
+						 文章更新时间：{!--fun date('Y-m-d',$kt['addtime'])--}
 						 其他字段内容统一输出：{!--$v[字段参数]--}
 						 *自定义当前位置：【不要求完全掌握，知道可以遍历输出面包屑导航即可】
 						 {!--loop $positions_data as $v--}
@@ -416,10 +416,10 @@
 							如果没有下一篇，则输出这里的内容
 							{!--/if--}</pre>
 						点赞
-						<pre class="layui-code">{!--if(checkLikes($type['id'],$jz['id']))--}
-						<span style="color:#f00;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$jz['id']--})" class="icon-like">已点赞</span>
+						<pre class="layui-code">{!--if(checkLikes($type['id'],$kt['id']))--}
+						<span style="color:#f00;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$kt['id']--})" class="icon-like">已点赞</span>
 						{!--else--}
-						<span style="color:gray;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$jz['id']--})" class="icon-like">点赞</span>
+						<span style="color:gray;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$kt['id']--})" class="icon-like">点赞</span>
 						{!--/if--}</pre>
 						相关点赞js
 						<pre class="layui-code">function likes(tid,id){
@@ -454,10 +454,10 @@
 			})
 	}</pre>
 						收藏
-						<pre class="layui-code">{!--if(checkCollect($type['id'],$jz['id']))--}
-						<span style="color:#f00;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$jz['id']--})"  >已收藏</span>
+						<pre class="layui-code">{!--if(checkCollect($type['id'],$kt['id']))--}
+						<span style="color:#f00;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$kt['id']--})"  >已收藏</span>
 						{!--else--}
-						<span style="color:gray;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$jz['id']--})" >收藏</span>
+						<span style="color:gray;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$kt['id']--})" >收藏</span>
 						{!--/if--}</pre>
 						相关收藏js
 						<pre class="layui-code">function collect(tid,id){
@@ -497,51 +497,51 @@
 					    <!--商品-->
 					  <div class="layui-tab-item">
 						 <div class="layui-form-item layui-form-text">
-						  <blockquote class="layui-elem-quote">$jz变量可以输出所有内容</blockquote>
+						  <blockquote class="layui-elem-quote">$kt变量可以输出所有内容</blockquote>
 						  <blockquote class="layui-elem-quote">内容页也可以使用$type调用栏目所有内容的哦~</blockquote>
-						 <pre class="layui-code">商品标题：{!--$jz['title']--}
+						 <pre class="layui-code">商品标题：{!--$kt['title']--}
 						 当前位置：{!--$positions--}
-						 商品SEO标题：{!--$jz['seo_title']--}
-						 商品关键词：{!--$jz['keywords']--}
-						 商品点击量：{!--$jz['hits']--}自增操作{!--fun incrData('product',$jz['id'],'hits')--}
-						 商品主图：{!--$jz['litpic']--}
-						 商品价格：{!--$jz['price']--}
-						 商品库存：{!--$jz['stock_num']--}
-						 商品简介：{!--$jz['description']--}
-						 商品内容：{!--$jz['body']--}
-						 商品上传管理员：{!--fun adminInfo($jz['userid'],'name')--}
-						 商品更新时间：{!--fun date('Y-m-d',$jz['addtime'])--}
+						 商品SEO标题：{!--$kt['seo_title']--}
+						 商品关键词：{!--$kt['keywords']--}
+						 商品点击量：{!--$kt['hits']--}自增操作{!--fun incrData('product',$kt['id'],'hits')--}
+						 商品主图：{!--$kt['litpic']--}
+						 商品价格：{!--$kt['price']--}
+						 商品库存：{!--$kt['stock_num']--}
+						 商品简介：{!--$kt['description']--}
+						 商品内容：{!--$kt['body']--}
+						 商品上传管理员：{!--fun adminInfo($kt['userid'],'name')--}
+						 商品更新时间：{!--fun date('Y-m-d',$kt['addtime'])--}
 						 其他字段内容统一输出：{!--$v[字段参数]--}
 						 *自定义当前位置：【不要求完全掌握，知道可以遍历输出面包屑导航即可】
 						 {!--loop $position_data as $v--}
 						 {!--php echo '<a href="'.$v['url'].'">'.$v['classname'].'</a>'/--}
 						 {!--/loop--}</pre>
 						 商品图集
-						  <pre class="layui-code">{!--php $pictures = explode('||',$jz['pictures'])/--}
+						  <pre class="layui-code">{!--php $pictures = explode('||',$kt['pictures'])/--}
 									{!--foreach $pictures as $v--}
 									{!--if($v!='')--}
 									图片链接：{!--$v--}	
 									{!--/if--}
 									{!--/foreach--}</pre>
 						 商品属性
-						 <pre class="layui-code">{!--php $product_fields = get_fields_show($jz['tid'],$type['molds'])/--}
+						 <pre class="layui-code">{!--php $product_fields = get_fields_show($kt['tid'],$type['molds'])/--}
 						{!--foreach $product_fields as $v--}
 						属性名：{!--$v['fieldname']--}
 						{!--if($v['fieldtype']==7)--}
 						<!--单选-->
-						输出单选值：{!--fun get_key_field_select($jz[$v['field']],$type['molds'],$v['field'])--}
+						输出单选值：{!--fun get_key_field_select($kt[$v['field']],$type['molds'],$v['field'])--}
 						{!--else if($v['fieldtype']==8)--}
 						<!--多选-->
-						输出多选值，并用空格分隔：{!--fun implode(' ',get_key_field_select($jz[$v['field']],$type['molds'],$v['field']))--}
+						输出多选值，并用空格分隔：{!--fun implode(' ',get_key_field_select($kt[$v['field']],$type['molds'],$v['field']))--}
 						{!--else--}
 						<!--默认值-->
-						输出原值：{!--$jz[$v['field']]--}
+						输出原值：{!--$kt[$v['field']]--}
 						{!--/if--}
 						{!--/foreach--}</pre>
 						点评/星星数【五颗星为满分，评分数为总星数/投票数，点了星星并提交评论才算评分成功】
 						<pre class="layui-code"><div class="rating">
 									<!--获取当前商品的点评数据-->
-									{!--php $comment = show_comment($jz['tid'],$jz['id'])/--}
+									{!--php $comment = show_comment($kt['tid'],$kt['id'])/--}
 									<!--判断是否有评论-->
 									{!--php $star_num = $comment['average']/--}
 									{!--if($comment['data'])--}
@@ -569,7 +569,7 @@
 									0 - 0 票
 									{!--/if--}</pre>
 						加入购物车
-						<pre class="layui-code"><button onclick="addcart({!--$type['id']--},{!--$jz['id']--},1)" class="btn btn-primary" type="button"><i class="icon-basket"></i>加入购物车</button></pre>
+						<pre class="layui-code"><button onclick="addcart({!--$type['id']--},{!--$kt['id']--},1)" class="btn btn-primary" type="button"><i class="icon-basket"></i>加入购物车</button></pre>
 						加入购物车JS
 						<pre class="layui-code">function addcart(tid,id,num){
 								$.ajax({
@@ -603,7 +603,7 @@
 						   }
 						   </pre>
 						   相关产品
-						   <pre class="layui-code">{!--loop table="$type['molds']" notin="id|$jz['id']" limit="3" as="v"--}
+						   <pre class="layui-code">{!--loop table="$type['molds']" notin="id|$kt['id']" limit="3" as="v"--}
 						   notin：表示除当前ID外的产品
 						   {!--/loop--}</pre>
 						  上一个
@@ -625,12 +625,12 @@
 							{!--/if--}</pre>
 						点赞
 						<pre class="layui-code">判断是否有点赞
-						{!--if(checkLikes($type['id'],$jz['id']))--}
+						{!--if(checkLikes($type['id'],$kt['id']))--}
 						有点赞，则输出这里
-						<span style="color:#f00;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$jz['id']--})" class="icon-like">已点赞</span>
+						<span style="color:#f00;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$kt['id']--})" class="icon-like">已点赞</span>
 						{!--else--}
 						没有点赞则输出这里
-						<span style="color:gray;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$jz['id']--})" class="icon-like">点赞</span>
+						<span style="color:gray;cursor:pointer;" onclick="likes({!--$type['id']--},{!--$kt['id']--})" class="icon-like">点赞</span>
 						{!--/if--}</pre>
 						相关点赞js
 						<pre class="layui-code">function likes(tid,id){
@@ -665,10 +665,10 @@
 			})
 	}</pre>
 						收藏
-						<pre class="layui-code">{!--if(checkCollect($type['id'],$jz['id']))--}
-						<span style="color:#f00;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$jz['id']--})"  >已收藏</span>
+						<pre class="layui-code">{!--if(checkCollect($type['id'],$kt['id']))--}
+						<span style="color:#f00;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$kt['id']--})"  >已收藏</span>
 						{!--else--}
-						<span style="color:gray;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$jz['id']--})" >收藏</span>
+						<span style="color:gray;cursor:pointer;" onclick="collect({!--$type['id']--},{!--$kt['id']--})" >收藏</span>
 						{!--/if--}</pre>
 						相关收藏js
 						<pre class="layui-code">function collect(tid,id){

@@ -602,7 +602,7 @@ function classTypeDataMobile(){
  
  
  //新增字段-后台列表搜索获取
- function molds_search($molds=null,$data){
+ function molds_search($molds=null,$data=null){
 	 if($molds==null){
 		 Error('缺少模块标识！');
 	 }
@@ -1163,7 +1163,7 @@ function get_comment_user($id){
 //计算评论数量---或者直接comment_num显示
 function get_comment_num($tid,$id=0){
 	if($id==0){ return '缺少ID！';}
-	$count = M('comment')->getCount(['aid'=>$id,'tid'=>$tid]);
+	$count = M('comment')->getCount(['aid'=>$id,'tid'=>$tid,'isshow'=>1]);
 	return $count;
 }
 
@@ -1418,9 +1418,7 @@ function formatTime($sTime, $formt = 'Y-m-d') {
         return intval($dDay/7).'周前';
     } else if( $dDay > 30  && $dDay < 365){
         return intval($dDay/30).'个月前';
-	} else if($dDay >= 365 && $dDay < 3650){
-		return intval($dDay/365).'年前';
-    } else {
+	} else {
         return date($formt, $sTime);
     }
 }
@@ -1435,8 +1433,13 @@ function htmldecode($data){
 //计算点赞数
 function k_zan($tid,$id){
 	
-	$sql = " likes like '%||".$tid.'-'.$id."||%' ";
+	$sql = " likes like '%||".$tid.'-'.$id."||%' and username!='customer' ";
 	$count = M('member')->getCount($sql);
+	$custom = M('member')->find(['username'=>'customer']);
+	if($custom){
+		$likes_num = substr_count($custom['likes'],'|'.$tid.'-'.$id.'|');
+		$count+=$likes_num;
+	}
 	return $count;
 	
 }
@@ -1627,7 +1630,7 @@ function deldir($dir) {
  * direct=1 中间开始裁剪  direct=0 左上角开始裁剪
  * debug=1 调试状态，每次请求都生成缓存 debug=0 会直接调用已生成的缩略图
  */
-function jzresize($src_image,$out_width = NULL, $out_height = NULL, $mode = 1, $out_image = NULL,  $direct = 0 ,$debug=0 , $img_quality = 90 ) {
+function k_resize($src_image,$out_width = NULL, $out_height = NULL, $mode = 1, $out_image = NULL,  $direct = 0 ,$debug=0 , $img_quality = 90 ) {
 	if(!is_dir(APP_PATH.'cache/image')){
 		if(!mkdir(APP_PATH.'cache/image',0777)){
 			exit('图片缓存文件夹不存在cache/image');
@@ -1648,7 +1651,7 @@ function jzresize($src_image,$out_width = NULL, $out_height = NULL, $mode = 1, $
 				  exit('无法下载！');
 			  }
 			  $filename = pathinfo($src_image, PATHINFO_BASENAME);
-			  $resource = fopen($path . $filename, 'a');
+			  $resource = fopen($path . $filename, 'w');
 			  fwrite($resource, $file);
 			  fclose($resource);
 			  $src_image = '/'.$path . $filename;
@@ -1759,11 +1762,11 @@ function jzresize($src_image,$out_width = NULL, $out_height = NULL, $mode = 1, $
 	imagedestroy($img);
 	
 	
-	return $out_image;
+	return '/'.$out_image;
 }
 
-function jzcachedata($field){
-	$result = getCache('jzcache_'.$field);
+function k_cachedata($field){
+	$result = getCache('k_cache_'.$field);
 	if(!$result){
 		$res = M('cachedata')->find(['field'=>$field]);
 		
@@ -1798,10 +1801,177 @@ function jzcachedata($field){
 			}
 		}
 		$time = $res['times']*60+time();
-		setCache('jzcache_'.$res['field'],$result,$time);
+		setCache('k_cache_'.$res['field'],$result,$time);
 	}
 	return $result;
 }
+// 增加classtypedata缓存
+function getclasstypedata($array,$m=1){
+	if($m){
+		$s = 'classtypedatamobile';
+	}else{
+		$s = 'classtypedatapc';
+	}
+	$classtypedata = getCache($s);
+	if(!$classtypedata){
+	    $classtypedata = $array;
+		foreach($classtypedata as $k=>$v){
+			$classtypedata[$k]['children'] = get_children($v,$classtypedata);
+		}
+		setCache($s,$classtypedata);
+	}
+	return $classtypedata;
+}
 
+function k_tpldata(){
+	$tpldata = getCache('tpldata');
+	if(!$tpldata){
+		if(isset($_SESSION['terminal'])){
+			$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
+		}else{
+			$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
+		}
+		if($m){
+			$classtypedata = classTypeDataMobile();
+		}else{
+			$classtypedata = classTypeData();
+		}
+		$tpldata = [];
+		$tpl_data = M('tplfields')->findAll();
+		if($tpl_data){
+
+			foreach($tpl_data as $v){
+				if($v['tid']){
+					$v['url'] = $classtypedata[$v['tid']]['url'];
+				}
+				if($v['orders']){
+					switch($v['orders']){
+						case 1:
+						$v['orders'] = ' addtime desc ';
+						break;
+						case 2:
+						$v['orders'] = ' addtime asc ';
+						break;
+						case 3:
+						$v['orders'] = ' orders desc ';
+						break;
+						case 4:
+						$v['orders'] = ' hits desc ';
+						break;
+						case 5:
+						$v['orders'] = ' id asc ';
+						break;
+						case 6:
+						$v['orders'] = ' id desc ';
+						break;
+					}
+				}
+				switch($v['fieldtype']){
+					case 4:
+					case 11:
+					$data = explode('||',$v['data']);
+					$newdata = [];
+					foreach($data as $kk=>$vv){
+						$pic = explode('|',$vv);
+						$newdata[$kk] = ['url'=>$pic[0],'title'=>$pic[1]];
+					}
+					$v['filedata'] = $newdata;
+
+					break;
+
+					case 8:
+					case 9:
+					$v['sdata'] = explode("\n",$v['sdata']);
+
+					break;
+				}
+				$tpldata[$v['pid']][$v['field']] = $v;
+			}
+		}
+
+		setCache('tpldata',$tpldata);
+
+	}
+	return $tpldata;
+}
+
+function k_tpldatafield(){
+    $tpldata = getCache('tpldata');
+    if(!$tpldata){
+		if(isset($_SESSION['terminal'])){
+			$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
+		}else{
+			$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
+		}
+		if($m){
+			$classtypedata = classTypeDataMobile();
+		}else{
+			$classtypedata = classTypeData();
+		}
+        $tpldata = [];
+        $tpls = M('tpl')->findAll();
+        $tplarr = [];
+        foreach($tpls as $v){
+            $tplarr[$v['id']] = $v;
+        }
+        $tpl_data = M('tplfields')->findAll();
+        if($tpl_data){
+
+            foreach($tpl_data as $v){
+                if($v['tid']){
+                    $v['url'] = $classtypedata[$v['tid']]['url'];
+                }
+                if($v['orders']){
+                    switch($v['orders']){
+                        case 1:
+                        $v['orders'] = ' addtime desc ';
+                        break;
+                        case 2:
+                        $v['orders'] = ' addtime asc ';
+                        break;
+                        case 3:
+                        $v['orders'] = ' orders desc ';
+                        break;
+                        case 4:
+                        $v['orders'] = ' hits desc ';
+                        break;
+                        case 5:
+                        $v['orders'] = ' id asc ';
+                        break;
+                        case 6:
+                        $v['orders'] = ' id desc ';
+                        break;
+                    }
+                }
+                switch($v['fieldtype']){
+                    case 4:
+                    case 11:
+                    $data = explode('||',$v['data']);
+                    $newdata = [];
+                    foreach($data as $kk=>$vv){
+                        $pic = explode('|',$vv);
+                        $newdata[$kk] = ['url'=>$pic[0],'title'=>$pic[1]];
+                    }
+                    $v['filedata'] = $newdata;
+
+                    break;
+
+                    case 8:
+                    case 9:
+                    $v['sdata'] = explode("\n",$v['sdata']);
+
+                    break;
+                }
+                $tpldata[$tplarr[$v['pid']]['field']][$v['field']] = $v;
+            }
+        }
+
+        setCache('tpldata2',$tpldata);
+
+    }else{
+		$tpldata = getCache('tpldata2');
+	}
+    return $tpldata;
+}
 //引入扩展方法文件
 include(APP_PATH.'Conf/FunctionsExt.php');

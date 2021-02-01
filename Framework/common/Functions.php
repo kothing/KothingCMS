@@ -41,7 +41,7 @@ function M($name=null) {
 
 
 /**
-	参数过滤，格式化
+ * 参数过滤，格式化
 **/
 function format_param($value=null,$int=0,$default=false){
 	if($value==null){ return '';}
@@ -113,9 +113,7 @@ function unicodeDecode($unicode_str){
 }
 
 /**
-	
-	格式化数组为pathinfo格式
-
+ * 格式化数组为pathinfo格式
 **/
 
 function array_pathInfo($url){
@@ -131,10 +129,8 @@ function array_pathInfo($url){
 }
 
 /**
-
-系统内置URL生成方法
-@action   string   支持两种格式生成  controllorName/actionName或actionName自动调用当前控制器  
-
+ * 系统内置URL生成方法
+ * @action   string   支持两种格式生成  controllorName/actionName或actionName自动调用当前控制器  
 **/
 
 
@@ -176,13 +172,11 @@ function U($action=null,$field=null){
 }
 
 /**
-
-系统内部错误提示
-@info   string    文字描述
-
+* 系统内部错误提示
+* @info   string    文字描述
 **/
 function Error_msg($msg,$url=null){
-	//检测是否定义了错误处理--2019/2/24  by 留恋风
+	//检测是否定义了错误处理
 	$controller = APP_HOME.'\\'.HOME_CONTROLLER.'\\ErrorController';
 	if (!class_exists($controller) || !method_exists($controller,'index')) {
 		$traces = debug_backtrace();
@@ -198,12 +192,10 @@ function Error_msg($msg,$url=null){
 
 
 /**
-
-自定义成功后跳转方法
-@info  string  提示信息
-@url   string  链接   default 空
-@delay int     时间   default 2s 
-
+* 自定义成功后跳转方法
+* @info  string  提示信息
+* @url   string  链接   default 空
+* @delay int     时间   default 2s 
 **/
 function Success($info, $url=null){
 	if($url==null){
@@ -212,11 +204,10 @@ function Success($info, $url=null){
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body><script type=text/javascript>alert("'.$info.'");window.location.href="'.$url.'";</script></body></html>';
 	exit;
 }
+
 /**
-
-自定义失败后跳转方法
-@info  string   提示信息
-
+* 自定义失败后跳转方法
+* @info  string   提示信息
 **/
 function Error($info, $url=null){
   if($url==null){
@@ -234,7 +225,7 @@ function Error($info, $url=null){
 
 /**
 
-返回json格式数组
+* 返回json格式数组
 
 **/
 
@@ -327,7 +318,7 @@ function current_url(){
 
 /**
 
-自定义重定向跳转方法
+  * 自定义重定向跳转方法
   *@param $url 目标地址
   *@param $info 提示信息
   *@param $sec 等待时间
@@ -347,8 +338,7 @@ function Redirect($url,$info=null,$sec=3){
 }
 
 /**
-	设置Session过期时间
-
+ * 设置Session过期时间
 **/
 
 function start_session($expire = 0)  {
@@ -379,9 +369,9 @@ function start_session($expire = 0)  {
 
 /**
 
-	自定义添加事件日志
-	@param  data   日志内容
-	@param  dataname  日志名称
+	* 自定义添加事件日志
+	* @param  data   日志内容
+	* @param  dataname  日志名称
 
 **/
 
@@ -414,9 +404,8 @@ function register_log($data=null,$dataname=null){
 
 
 /**
-
-	输出日志事件列表
-	@param  dataname   日志名称   默认空，输出主日志记录
+	* 输出日志事件列表
+	* @param  dataname   日志名称   默认空，输出主日志记录
 **/
 
 function show_log($dataname=null){
@@ -441,8 +430,8 @@ function show_log($dataname=null){
 
 
 /**
-	记录操作的模块--操作的方法（函数）--事件--操作人 
-	记录报错
+	* 记录操作的模块--操作的方法（函数）--事件--操作人 
+	* 记录报错
 **/
 function actionLog(){
 	if(APP_DEBUG === true){
@@ -490,7 +479,7 @@ function getRandChar($length = 8){
 }
 
 /**
-	字符截断,中文算2个字符
+	* 字符截断,中文算2个字符
 **/
 function newstr($string, $length, $dot="...") {
 	if(strlen($string) <= $length) {return $string;}
@@ -574,7 +563,7 @@ function frdecode($str)
 }
 
 /**
-	格式化打印变量
+	* 格式化打印变量
 **/
 function dump($vars){
    $content = "<div align=left><pre>\n" . htmlspecialchars(print_r($vars, true)) . "\n</pre></div>\n";
@@ -583,10 +572,10 @@ function dump($vars){
 }
 
 /**
-	本地缓存
-	@param str  设置索引
-	@param data 存储数据
-	@param timeout  设置过期时间，单位秒(s) 默认-1,永久存储
+	* 本地缓存
+	* @param str  设置索引
+	* @param data 存储数据
+	* @param timeout  设置过期时间，单位秒(s) 默认-1,永久存储
 **/
 function setCache($str,$data,$timeout=-1){
 
@@ -662,7 +651,7 @@ function extendFile($filepath){
 }
 
 //多语言方法定义
-function JZLANG($str=null){
+function K_LANG($str=null){
 	if($str){
 		//读取当前语言包环境
 		if(isset($_SESSION['lang'])){

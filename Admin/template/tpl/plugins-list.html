@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
    {include="style"}
    <style>
-	.btn-jz{
+	.btn-k{
 		margin-left:0px !important;
 	}
-	span.jzspan {
+	span.kspan {
 		width: 45px;
 	}
 
@@ -63,7 +63,7 @@
             <td>{$v['name']}</td>
             <td>v{$v['version']}{if($v['isupdate'])}<span style="cursor:pointer;" title="点击查看" onclick="x_all_show('更新说明','{fun U('Plugins/update',array('filepath'=>$v['filepath']))}')" class="layui-badge">新</span>{/if}</td>
             <td>{$v['author']}</td>
-			<td>{if($v['official']==1)}<span class="layui-badge layui-bg-green jzspan">官方</span>{else if($v['official']==2)}<span class="layui-badge layui-bg-orange jzspan">本地</span>{else}<span class="layui-badge layui-bg-orange jzspan">第三方</span>{/if}</td>
+			<td>{if($v['official']==1)}<span class="layui-badge layui-bg-green kspan">官方</span>{else if($v['official']==2)}<span class="layui-badge layui-bg-orange kspan">本地</span>{else}<span class="layui-badge layui-bg-orange kspan">第三方</span>{/if}</td>
             <td >{$v['description']}</td>
 			
             <td>{$v['filepath']}</td>
@@ -90,10 +90,10 @@
             <td class="td-manage">
 			{if(checkAction('Plugins/action_do'))}
 				{if($v['isinstall'])}
-				<a onclick="x_all_show('配置','{fun U('Plugins/setconf',array('id'=>$v['id']))}')" class="layui-btn layui-btn-normal layui-btn-xs btn-jz">配置</a>
-				<a href="{fun U('plugins/output',['filepath'=>$v['filepath']])}" class="layui-btn btn-jz  layui-btn-xs">导出</a> 
-				<a onclick="actionDo('{$v['filepath']}',0)" class="layui-btn layui-btn-warm btn-jz layui-btn-xs">卸载</a> 
-				<a onclick="actionDo('{$v['filepath']}',2)" class="layui-btn layui-btn-danger  btn-jz layui-btn-xs">删除</a> 
+				<a onclick="x_all_show('配置','{fun U('Plugins/setconf',array('id'=>$v['id']))}')" class="layui-btn layui-btn-normal layui-btn-xs btn-k">配置</a>
+				<a href="{fun U('plugins/output',['filepath'=>$v['filepath']])}" class="layui-btn btn-k  layui-btn-xs">导出</a> 
+				<a onclick="actionDo('{$v['filepath']}',0)" class="layui-btn layui-btn-warm btn-k layui-btn-xs">卸载</a> 
+				<a onclick="actionDo('{$v['filepath']}',2)" class="layui-btn layui-btn-danger  btn-k layui-btn-xs">删除</a> 
 								
 				{else if($v['exists'])}
 				<a onclick="actionDo('{$v['filepath']}',1)" class="layui-btn  layui-btn-xs">安装</a>

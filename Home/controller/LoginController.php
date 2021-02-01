@@ -13,7 +13,7 @@ namespace Home\controller;
 
 use Framework\lib\Controller;
 
-class LoginController extends Controller
+class LoginController extends CommonController
 {
 	function _init(){
 
@@ -24,52 +24,7 @@ class LoginController extends Controller
 			Error('会员中心已关闭！');
 			exit;
 		}
-		$webconf = webConf();
-		$template = TEMPLATE;
-		$this->webconf = $webconf;
-		$this->template = $template;
-		if(isset($_SESSION['terminal'])){
-			$classtypedata = $_SESSION['terminal']=='mobile' ? classTypeDataMobile() : classTypeData();
-		}else{
-			$classtypedata = (isMobile() && $webconf['iswap']==1)?classTypeDataMobile():classTypeData();
-		}
-		
-		foreach($classtypedata as $k=>$v){
-			$classtypedata[$k]['children'] = get_children($v,$classtypedata);
-		}
-		$this->classtypedata = $classtypedata;
-		$this->common = Tpl_style.'common/';
-		$this->tpl = Tpl_style.$template.'/';
-		$this->frpage = $this->frparam('page');
-		$customconf = get_custom();
-		$this->customconf = $customconf;
-		if(isset($_SESSION['member'])){
-			$this->islogin = true;
-			$this->member = $_SESSION['member'];
-			
-			
-		}else{
-			$this->islogin = false;
-		}
-		$jznav = getCache('jznav');
-		if(!$jznav){
-			$nav = M('menu')->findAll(['isshow'=>1]);
-			$jznav = [];
-			if($nav){
-				foreach($nav as $v){
-					$menulist = unserialize($v['nav']);
-					foreach($menulist as $vv){
-						if($vv['status']==1){
-							$vv['url'] = $vv['tid'] ? $this->classtypedata[$vv['tid']]['url'] : $vv['gourl'];
-							$vv['title'] = $vv['title'] ? $vv['title'] : ($vv['tid'] ? $this->classtypedata[$vv['tid']]['classname'] : '');
-							$jznav[$v['id']][]=$vv;
-						}
-					}
-				}
-			}
-			setCache('jznav',$jznav);
-		}
-		$this->jznav = $jznav;
+		parent::_init();
 
     
     }

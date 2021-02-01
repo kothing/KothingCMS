@@ -17,8 +17,6 @@ use Framework\Extend\Page;
 class AdminController extends CommonController
 {
 
-	
-	
 	public function group(){
 		$page = new Page('Level_group');
 		$sql = ' 1=1 ';

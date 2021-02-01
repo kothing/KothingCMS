@@ -30,6 +30,7 @@ namespace Framework\Extend;
 		public $url = '';
 		//分页分隔符
 		public $sep = '/page/';
+		public $paged = 'page';
 		//SQL
 		public $sql = null;
 		//排序
@@ -181,6 +182,11 @@ namespace Framework\Extend;
 						unset($param['k_screen']);
 						unset($param['molds']);
 					}
+					if($this->typeurl=='tpl'){
+						if(isset($param[$this->paged])){
+							unset($param[$this->paged]);
+						}
+					}
 					if(count($param)){
 						if(strpos($this->sep,'?')!==false){
 							$file_ext.='&'.http_build_query($param);
@@ -209,7 +215,7 @@ namespace Framework\Extend;
 				$listpage['list'][] = array('url'=>$this->url.$this->sep.$start.$file_ext,'num'=>$start);
 				$start++;
 			}
-			$listpage['allpage'] = $this->url.$this->sep.$this->allpage;
+			$listpage['allpage'] = $this->allpage;
 			
 			$prev = '<li><a href="'.$this->url.$this->sep.($this->currentPage-1).$file_ext.'" class="layui-laypage-prev" data-page="'.($this->currentPage-1).'"><em>&lt;</em></a></li>';
 			

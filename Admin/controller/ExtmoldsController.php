@@ -50,6 +50,20 @@ class ExtmoldsController extends Controller
 		  $customconf = get_custom();
 		  $this->customconf = $customconf;
 		  $this->classtypetree =  get_classtype_tree();
+		  $m = 1;
+			if(isset($_SESSION['terminal'])){
+				$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
+			}else{
+				$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
+			}
+			if($m){
+				$classtypedata = classTypeDataMobile();
+			}else{
+				$classtypedata = classTypeData();
+			}
+			
+			$this->classtypedata = getclasstypedata($classtypedata,$m);
+	  
 		  if($_SESSION['admin']['isadmin']!=1){
 			$tids = $_SESSION['admin']['tids'];
 			foreach ($this->classtypetree as $k => $v) {
@@ -73,10 +87,7 @@ class ExtmoldsController extends Controller
 	}
 	public function index(){
 		
-		$classtypedata = classTypeData();
-		foreach($classtypedata as $k=>$v){
-			$classtypedata[$k]['children'] = get_children($v,$classtypedata);
-		}
+		$classtypedata = $this->classtypedata;
 		$molds = $this->frparam('molds',1);
 		if($molds==''){
 			Error('模块为空，请选择模块！');
@@ -126,7 +137,12 @@ class ExtmoldsController extends Controller
 				}
 				
 				$v['new_isshow'] = $v['isshow']==1 ? '已审' : ($v['isshow']==2 ? '退回' : '未审');
-				$v['view_url'] = gourl($v,$v['htmlurl']);
+				if($molds=='tags'){
+					$v['view_url'] = get_domain().'/tags/index/id/'.$v['id'];
+				}else{
+					$v['view_url'] = gourl($v,$v['htmlurl']);
+				}
+				
 				$v['edit_url'] = U('Extmolds/editmolds',array('id'=>$v['id'],'molds'=>$molds));
 				
 				foreach($this->fields_list as $vv){

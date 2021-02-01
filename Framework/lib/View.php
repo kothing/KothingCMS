@@ -333,17 +333,30 @@ class View
 			}
 			
 		}
-		if(isset($a['limit'])){$limit=$a['limit'];}else{$limit='null';}
+		if(isset($a['limit'])){
+			if(strpos($a['limit'],'$')!==false){
+				$limit=trim($a['limit'],"'");
+			}else{
+				$limit=$a['limit'];
+			}
+		}else{$limit='null';}
 		if(isset($a['notempty'])){$notempty=trim($a['notempty'],"'");}else{$notempty=false;}
 		if(isset($a['empty'])){$empty=trim($a['empty'],"'");}else{$empty=false;}
-		if(isset($a['fields'])){$fields=$a['fields'];}else{$fields='null';}
+		if(isset($a['fields'])){
+			if(strpos($a['fields'],'$')!==false){
+				$fields=trim($a['fields'],"'");
+			}else{
+				$fields=$a['fields'];
+			}
+			
+		}else{$fields='null';}
 		if(isset($a['isall'])){$isall=trim($a['isall'],"'");}else{$isall=false;}
 		if(isset($a['as'])){$as=$a['as'];}else{$as='v';}
 		if(isset($a['day'])){$day=$a['day'];}else{$day=false;}
-		if(isset($a['jzpage'])){$jzpage=trim($a['jzpage'],"'");}else{$jzpage='page';}
+		if(isset($a['k_page'])){$k_page=trim($a['k_page'],"'");}else{$k_page='page';}
 		if(isset($a['sql'])){$sql=trim($a['sql'],"'");}else{$sql='';}
-		if(isset($a['jzcache'])){$jzcache=trim($a['jzcache'],"'");}else{$jzcache=false;}
-		if(isset($a['jzcachetime'])){$jzcachetime=trim($a['jzcachetime'],"'");}else{$jzcachetime=30*60;}
+		if(isset($a['k_cache'])){$k_cache=trim($a['k_cache'],"'");}else{$k_cache=false;}
+		if(isset($a['k_cachetime'])){$k_cachetime=trim($a['k_cachetime'],"'");}else{$k_cachetime=30*60;}
 		if(isset($a['orderby'])){
 			$order=$a['orderby'];
 			if(strpos($a['orderby'],'$')!==FALSE){$order=trim($a['orderby'],"'");}
@@ -405,12 +418,17 @@ class View
 		if($sql){
 			$sql = " and ('.".$sql.".' ) ";
 		}
-		unset($a['table']);unset($a['orderby']);unset($a['limit']);unset($a['as']);unset($a['like']);unset($a['fields']);unset($a['isall']);unset($a['notin']);unset($a['notempty']);unset($a['empty']);unset($a['day']);unset($a['in']);unset($a['sql']);unset($a['jzpage']);unset($a['jzcache']);unset($a['jzcachetime']);
+		unset($a['table']);unset($a['orderby']);unset($a['limit']);unset($a['as']);unset($a['like']);unset($a['fields']);unset($a['isall']);unset($a['notin']);unset($a['notempty']);unset($a['empty']);unset($a['day']);unset($a['in']);unset($a['sql']);unset($a['k_page']);unset($a['k_cache']);unset($a['k_cachetime']);
 		$pages='';
 		$w = ' 1=1 ';
 		$ispage=false;
-		if(stripos($jzpage,'$')!==false){
-			$jzpage = "'.$jzpage.'";
+		if($k_page!='page'){
+			if(stripos($k_page,'$')!==false){
+				$k_page = "'.$k_page.'";
+			}
+			$pagenum = "\$pagenum = (int)\$_REQUEST['".$k_page."'] ? (int)\$_REQUEST['".$k_page."']  : 1; ";
+		}else{
+			$pagenum = "\$pagenum = \$frpage;";
 		}
 		foreach($a as $k=>$v){
 			if(strpos($v,'$')===FALSE){
@@ -522,12 +540,12 @@ class View
 		if($ispage){
 			
 			$txt .="
-			\$pagenum = (int)\$_REQUEST['".$jzpage."'] ? (int)\$_REQUEST['".$jzpage."']  : 1; 
-			unset(\$_REQUEST['".$jzpage."']);
+			".$pagenum."
 			\$".$as."_page = new Framework\Extend\Page(\$".$as."_table);
 			\$".$as."_page->typeurl = 'tpl';
+			\$".$as."_page->paged = '".$k_page."';
 			\$".$as."_data = \$".$as."_page->where(\$".$as."_w)->fields(\$".$as."_fields)->orderby(\$".$as."_order)->limit(\$".$as."_limit)->page(\$pagenum)->go();
-			\$".$as."_pages = \$".$as."_page->pageList(3,'?".$jzpage."=');
+			\$".$as."_pages = \$".$as."_page->pageList(3,'?".$k_page."=');
 			\$".$as."_sum = \$".$as."_page->sum;
 			\$".$as."_listpage = \$".$as."_page->listpage;
 			\$".$as."_prevpage = \$".$as."_page->prevpage;
@@ -536,12 +554,12 @@ class View
 		}else{
 			
 			$txt .= "
-			if(\$jzcache){
+			if(\$k_cache){
 				\$cachestr = md5(\$".$as."_table.\$".$as."_w.\$".$as."_order.\$".$as."_fields.\$".$as."_limit);
 				\$cachedata = getCache(\$cachestr);
 				if(!\$cachedata){
 					$".$as."_data = M(\$".$as."_table)->findAll(\$".$as."_w,\$".$as."_order,\$".$as."_fields,\$".$as."_limit);
-					setCache(\$cachestr,\$".$as."_data,\$jzcachetime);
+					setCache(\$cachestr,\$".$as."_data,\$k_cachetime);
 				}
 			}else{
 				$".$as."_data = M(\$".$as."_table)->findAll(\$".$as."_w,\$".$as."_order,\$".$as."_fields,\$".$as."_limit);

@@ -38,10 +38,7 @@ class OrderController extends CommonController
 		
 		if($this->frparam('ajax')){
 			$sql = ' 1=1 and ptype=1 ';
-			$classtypedata = classTypeData();
-			foreach($classtypedata as $k=>$v){
-				$classtypedata[$k]['children'] = get_children($v,$classtypedata);
-			}
+			$classtypedata = $this->classtypedata;
 			if($this->frparam('start',1)){
 				$starttime = strtotime($this->frparam('start',1));
 				$sql .= " and addtime >= ".$starttime;
@@ -79,13 +76,17 @@ class OrderController extends CommonController
 			$overpay_num = 0;
 			$notpay_num = 0;
 			$allmoney = 0.00;
-			foreach($pagelist as $k=>$v){
+			$newdata = M('orders')->findAll($sql);
+			foreach($newdata as $v){
 				if($v['ispay']==1){
 					$overpay_num+=1;
 					$allmoney+=$v['price'];
 				}else{
 					$notpay_num+=1;
 				}
+			}
+			foreach($pagelist as $k=>$v){
+				
 				$v['new_tid'] = $v['tid']!=0 ? $classtypedata[$v['tid']]['classname']:'-';
 				switch($v['isshow']){
 					case 1:
@@ -148,11 +149,6 @@ class OrderController extends CommonController
 	
 	function details(){
 		$this->fields_biaoshi = 'orders';
-		$classtypedata = classTypeData();
-		foreach($classtypedata as $k=>$v){
-			$classtypedata[$k]['children'] = get_children($v,$classtypedata);
-		}
-		$this->classtypedata = $classtypedata;
 		$id = $this->frparam('id');
 		if($id){
 			$data = M('Orders')->find(['id'=>$id]);
@@ -272,10 +268,7 @@ class OrderController extends CommonController
 		
 		if($this->frparam('ajax')){
 			$sql = ' 1=1 ';
-			$classtypedata = classTypeData();
-			foreach($classtypedata as $k=>$v){
-				$classtypedata[$k]['children'] = get_children($v,$classtypedata);
-			}
+			$classtypedata = $this->classtypedata;
 			if($this->frparam('start',1)){
 				$starttime = strtotime($this->frparam('start',1));
 				$sql .= " and addtime >= ".$starttime;

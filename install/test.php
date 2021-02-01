@@ -1,7 +1,7 @@
 <?php die();?>/*
 MySQL Database Backup Tools
 Server:127.0.0.1:3306
-Database:jz164test
+Database:k164test
 Data:2019-12-31 19:12:45
 */
 SET FOREIGN_KEY_CHECKS=0;
@@ -745,7 +745,7 @@ INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('6','Commen
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('7','Screen','网站筛选','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('8','Order','会员下单','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('9','Mypay','网站支付','0','1');
-INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('10','Jzpay','Kothing支付','0','1');
+INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('10','Kpay','Kothing支付','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('11','Tags','TAG标签','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('12','Wechat','微信模块','0','1');
 INSERT INTO `k_power` (`id`,`action`,`name`,`pid`,`isagree`) VALUES ('13','Common/vercode','验证码生成','1','1');
@@ -1154,3 +1154,5 @@ INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('11
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('114','closehomevercode','前台验证码', '关闭后，登录注册不需要验证码','0','0');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('115','closeadminvercode','后台验证码', '关闭后，后台管理员登录不需要验证码','0','0');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('116','tag_table','TAG包含模型', '在tag列表上查询的相关模型,多个模型标识可用|分割,如：article|product','0','article|product');
+INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('117','paydata','支付配置', NULL,'0',NULL);
+INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('118','isopendmf','支付宝当面付', NULL,'0','1');

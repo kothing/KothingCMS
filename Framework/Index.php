@@ -94,7 +94,7 @@ class Framework
     {
 		
 		
-		//检查是否开启redis_session ---2019/09/05 留恋风
+		//检查是否开启redis_session
 		if(open_redis_session){
 			$session = new \SessionRedis($this->config['redis']);
 			session_set_save_handler($session,true);
@@ -251,7 +251,7 @@ class Framework
         }
 		
 		
-		// 判断插件中是否存在控制器和操作--2019/2/15 by 留恋风
+		// 判断插件中是否存在控制器和操作
 		$controller = APP_HOME.'\\plugins\\'. $controllerName . 'Controller';
 		if (!class_exists($controller) || !method_exists($controller, $actionName)) {
 
@@ -336,10 +336,9 @@ class Framework
 			
 			}
 		}
-		//$dispatch = new $controller($controllerName, $actionName ,$param);
 		$dispatch = new $controller($param);
-        call_user_func_array(array($dispatch, $actionName), $param);
-
+		$dispatch->$actionName($param);
+       
 		
 		
 		
@@ -400,7 +399,10 @@ class Framework
 		}
     }
 
-    // 检测自定义全局变量并移除。
+    // 检测自定义全局变量并移除。因为 register_globals 已经弃用，如果
+    // 已经弃用的 register_globals 指令被设置为 on，那么局部变量也将
+    // 在脚本的全局作用域中可用。 例如， $_POST['foo'] 也将以 $foo 的
+    // 形式存在，这样写是不好的实现，会影响代码中的其他变量。 相关信息，
     // 参考: http://php.net/manual/zh/faq.using.php#faq.register-globals
     public function unregisterGlobals()
     {

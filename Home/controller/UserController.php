@@ -14,20 +14,10 @@ namespace Home\controller;
 use Framework\lib\Controller;
 use Framework\Extend\Page;
 
-class UserController extends Controller
+class UserController extends CommonController
 {
 	function _init(){
 		
-		$webconf = webConf();
-		$webcustom = get_custom();
-		$template = TEMPLATE;
-		$this->webconf = $webconf;
-		$this->webcustom = $webcustom;
-		$this->template = $template;
-		
-		if($this->webconf['closeweb']){
-			$this->close();
-		}
 		if(!M('molds')->find(['biaoshi'=>'member','isopen'=>1])){
 			if($this->frparam('ajax')){
 				JsonReturn(['code'=>1,'msg'=>'会员中心已关闭！']);
@@ -35,77 +25,10 @@ class UserController extends Controller
 			Error('会员中心已关闭！');
 			exit;
 		}
+		parent::_init();
 		
-		if(isset($_SESSION['terminal'])){
-			$classtypedata = $_SESSION['terminal']=='mobile' ? classTypeDataMobile() : classTypeData();
-		}else{
-			$classtypedata = (isMobile() && $webconf['iswap']==1)?classTypeDataMobile():classTypeData();
-		}
-		
-		foreach($classtypedata as $k=>$v){
-			$classtypedata[$k]['children'] = get_children($v,$classtypedata);
-		}
-		$this->classtypedata = $classtypedata;
-		
-		$this->tpl = Tpl_style.$template.'/';
-		$this->common = Tpl_style.'common/';
-		//檢測用戶是否登錄
-		if(isset($_SESSION['member'])){
-			$this->islogin = true;
-			$this->member = $_SESSION['member'];
-			
-			if($this->webconf['isopenhomepower']==1){
-				if(strpos($_SESSION['member']['paction'],','.APP_CONTROLLER.',')!==false){
-				   
-				}else{
-					$action = APP_CONTROLLER.'/'.APP_ACTION;
-					if(strpos($_SESSION['member']['paction'],','.$action.',')===false){
-						$ac = M('Power')->find(array('action'=>$action));
-						
-						if($this->frparam('ajax')){
-							JsonReturn(['code'=>1,'msg'=>'您没有【'.$ac['name'].'】的权限！','url'=>U('home/index')]);
-						}
-						Error('您没有【'.$ac['name'].'】的权限！');
-					}
-				}
-			   
-			  
-			}
-			
-		}else{
-			$this->islogin = false;
-			
-		}
-		$jznav = getCache('jznav');
-		if(!$jznav){
-			$nav = M('menu')->findAll(['isshow'=>1]);
-			$jznav = [];
-			if($nav){
-				foreach($nav as $v){
-					$menulist = unserialize($v['nav']);
-					foreach($menulist as $vv){
-						if($vv['status']==1){
-							$vv['url'] = $vv['tid'] ? $this->classtypedata[$vv['tid']]['url'] : $vv['gourl'];
-							$vv['title'] = $vv['title'] ? $vv['title'] : ($vv['tid'] ? $this->classtypedata[$vv['tid']]['classname'] : '');
-							$jznav[$v['id']][]=$vv;
-						}
-					}
-				}
-			}
-			setCache('jznav',$jznav);
-		}
-		$this->jznav = $jznav;
 	}
-	
-	function close(){
-		if(file_exists(APP_PATH.'static/common/close.html')){
-			$this->display('@'.APP_PATH.'static/common/close.html');
-			exit;
-		}else{
-			echo $this->webconf['closetip'];exit;
-		}
-	}
-	
+
 	function checklogin(){
 		if(!$this->islogin){
 			if($this->frparam('ajax')){
@@ -314,8 +237,9 @@ class UserController extends Controller
     }
     //订单详情
     function orderdetails(){
+    	$this->checklogin();
     	$orderno = $this->frparam('orderno',1);
-		$order = M('orders')->find(['orderno'=>$orderno]);
+		$order = M('orders')->find(['orderno'=>$orderno,'userid'=>$this->member['id']]);
 		if($orderno && $order){
 			/*
 			if($order['isshow']!=1){
@@ -360,8 +284,9 @@ class UserController extends Controller
     }
 	//支付页面
 	function payment(){
+		$this->checklogin();
 		$orderno = $this->frparam('orderno',1);
-		$order = M('orders')->find(['orderno'=>$orderno]);
+		$order = M('orders')->find(['orderno'=>$orderno,'userid'=>$this->member['id']]);
 		if($this->frparam('go') && $orderno && $order){
 			if($order['isshow']!=1){
 				//超时或者已支付
@@ -527,10 +452,10 @@ class UserController extends Controller
 				$likes = [];
 			}
 			$lk = $tid.'-'.$id;
-			$u = M('member')->find(['username'=>'jzcustomer']);
+			$u = M('member')->find(['username'=>'customer']);
 			if(!$u){
 				$w = [];
-				$w['username'] = 'jzcustomer';
+				$w['username'] = 'customer';
 				$r = M('member')->add($w);
 				$u['id'] = $r;
 				$u['likes'] = '';
