@@ -105,7 +105,7 @@
 							if($errmsg==1) {
 							  echo '<button type="button" class="btn btn-warning rounded btn-block py-2" value="" disabled>不符合要求，不能安装！</button>';
 							}else{
-							  echo '<button type="submit" value="submit"  class="btn btn-primary rounded btn-block py-2" value="" onclick="window.location.href=\'?act=step2\'"/>开始安装 > > ></button>';
+							  echo '<button type="submit" value="submit"  class="btn btn-primary rounded btn-block py-2" value="" onclick="window.location.href=\'?act=step2\'"/>开始安装</button>';
 							}
 						?>
 						

@@ -105,7 +105,7 @@
 									  <tr>
 										<td>数据库密码:</td>
 										<td>
-											<input type="text" class="text" id="password" name="password" value="" />
+											<input type="password" class="text" id="password" name="password" value="" />
 											<label class="normal passwordinfo">请查看服务器上分配的登录密码</label>
 										</td>
 									  </tr>
@@ -131,14 +131,14 @@
 									<tr>
 										<td>密码:</td>
 										<td>
-											<input type="text" class="text" name="admin_pass" id="adminpass" maxlength="20" value="kothing<?php echo mt_rand(1000,9999)?>" />
+											<input type="password" class="text" name="admin_pass" id="adminpass" maxlength="20" value="" />
 											<label class="normal">6到20个字符</label>
 										</td>
 									</tr>
 									<tr>
 										<td>确认密码:</td>
 										<td>
-											<input type="text" class="text" name="admin_repass" id="repassword" maxlength="20" value="" />
+											<input type="password" class="text" name="admin_repass" id="repassword" maxlength="20" value="" />
 											<label class="normal">和密码保持一致</label>
 										</td>
 									</tr>

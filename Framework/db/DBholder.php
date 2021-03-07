@@ -20,9 +20,9 @@ class DBholder{
 	
 	private function __construct(){
 		class_exists('PDO') or exit("not found PDO");
-		try{
+		try {
 			$this->pdo = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME,DB_USER, DB_PASS); 
-		}catch(PDOException $e){
+		} catch(PDOException $e) {
 			//数据库无法链接，如果您是第一次使用，请先配置数据库！
 			exit('<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />数据库无法链接，如果您是第一次使用，请先执行<a href="/install/">安装程序</a><br /><br /><a href="http://kothing.com" target="_blank">KothingCMS</a>');
 		}

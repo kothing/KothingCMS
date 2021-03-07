@@ -428,8 +428,8 @@ class Framework
             define('DB_USER', $this->config['db']['username']);
             define('DB_PASS', $this->config['db']['password']);
             define('DB_PORT', $this->config['db']['port']);
-			if(DB_HOST=='' || DB_NAME=='' || DB_USER=='' || DB_PASS==''){
-				exit('<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />数据库无法链接，如果您是第一次使用，请先执行<a href="/install/">安装程序</a><br /><br /><a href="http://kothing.com" target="_blank">KothingCMS</a>');
+			if(DB_HOST=='' || DB_NAME=='' || DB_USER=='' || DB_PASS=='') {
+				exit('<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><div style="text-align: center; margin: 30px auto 0;">数据库无法链接，如果您是第一次使用，请先执行<a href="/install/">安装程序</a><br /><a href="http://kothing.com" target="_blank">KothingCMS</a></div>');
 			}
 			
         }
