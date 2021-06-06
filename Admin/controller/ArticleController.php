@@ -209,6 +209,13 @@ class ArticleController extends CommonController
 				}
 				
 			}
+			
+			if($this->admin['isadmin']==1 || ($this->admin['isadmin']!=1 && $this->admin['ischeck']==0)){
+				$data['isshow'] = $this->frparam('isshow',0,1);
+			}else{
+				$data['isshow'] = 0;
+			}
+			
 			$r = M('Article')->add($data);
 			if($r){
 				if($data['ownurl']){
@@ -360,7 +367,11 @@ class ArticleController extends CommonController
 				}else{
 					M('customurl')->delete(['molds'=>'article','aid'=>$this->frparam('id')]);
 				}
-				
+				if($this->admin['isadmin']==1 || ($this->admin['isadmin']!=1 && $this->admin['ischeck']==0)){
+					$data['isshow'] = $this->frparam('isshow',0,1);
+				}else{
+					$data['isshow'] = 0;
+				}
 				if(M('Article')->update(array('id'=>$this->frparam('id')),$data)){
 					if($old_tags!=$data['tags']){
 						

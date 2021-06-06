@@ -59,23 +59,17 @@ class View
 			
 			$this->template($controllerLayout);
 			
-			
 			// include($cache_file);
 			// if(!file_exists($cache_file) && !is_readable($cache_file)){
 				// exit('缓存目录cache必须可读可写！请检查目录权限！');
 			// }
 			
-			
 			//检查根目录是否存在缓存目录cache
 			//检测其是否可读可写
-			
-			
 			
         } else {
            Error_msg('无法找到视图文件，页面模板：'.$name.'.html');
         }
-		
-		
 		
     }
 	
@@ -227,8 +221,8 @@ class View
 	
 	//筛选
 	/**
-		输出参数：筛选列表all(item)，链接url，升降序(id,orders,addtime)
-		{screen molds="article" orderby="orders desc" tid="1|2" fields='pingpai,yanse' as="v"}
+	 * 输出参数：筛选列表all(item)，链接url，升降序(id,orders,addtime)
+	 * {screen molds="article" orderby="orders desc" tid="1|2" fields='pingpai,yanse' as="v"}
 	**/
 	public function template_html_screen($f){
 		preg_match_all('/.*?(\s*.*?=.*?[\"|\'].*?[\"|\']\s).*?/si',' '.$f.' ',$aa);
@@ -298,7 +292,7 @@ class View
 	
 	//foreach全局标签
 	/**
-	$content=str_ireplace($v,'<?php foreach('.$i[1][$k].'){  ?>',$content);
+	* $content=str_ireplace($v,'<?php foreach('.$i[1][$k].'){  ?>',$content);
 	*/
 	private function template_html_foreach($f){
 		$ff = explode(' as ',$f);
@@ -551,19 +545,19 @@ class View
 			\$".$as."_prevpage = \$".$as."_page->prevpage;
 			\$".$as."_nextpage = \$".$as."_page->nextpage;
 			\$".$as."_allpage = \$".$as."_page->allpage;";
-		}else{
-			
-			$txt .= "
-			if(\$k_cache){
+		}else{	
+			if($k_cache){
+				$txt .= "
 				\$cachestr = md5(\$".$as."_table.\$".$as."_w.\$".$as."_order.\$".$as."_fields.\$".$as."_limit);
-				\$cachedata = getCache(\$cachestr);
-				if(!\$cachedata){
+				$".$as."_data = getCache(\$cachestr);
+				if(!$".$as."_data){
 					$".$as."_data = M(\$".$as."_table)->findAll(\$".$as."_w,\$".$as."_order,\$".$as."_fields,\$".$as."_limit);
-					setCache(\$cachestr,\$".$as."_data,\$k_cachetime);
-				}
+					setCache(\$cachestr,$".$as."_data,$k_cachetime);
+				}";
 			}else{
-				$".$as."_data = M(\$".$as."_table)->findAll(\$".$as."_w,\$".$as."_order,\$".$as."_fields,\$".$as."_limit);
-			}";
+				$txt .= "
+				$".$as."_data = M(\$".$as."_table)->findAll(\$".$as."_w,\$".$as."_order,\$".$as."_fields,\$".$as."_limit);";
+			}
 			
 		}
 		$txt.='$'.$as.'_n=0;foreach($'.$as.'_data as $'.$as.'_key=> $'.$as.'){

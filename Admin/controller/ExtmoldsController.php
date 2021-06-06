@@ -32,9 +32,9 @@ class ExtmoldsController extends Controller
 				   $ac = M('Ruler')->find(array('fc'=>$action));
 				   if($this->frparam('ajax')){
 					   
-					   JsonReturn(['code'=>1,'msg'=>'您没有【'.$ac['name'].'】的权限！','url'=>U('Index/index')]);
+					   JsonReturn(['code'=>1,'msg'=>'您没有【'.$ac['name'].'】的权限！','url'=>U('Index/welcome')]);
 				   }
-				   Error('您没有'.$ac['name'].'的权限！');
+				   Error('您没有'.$ac['name'].'的权限！',U('Index/welcome'));
 				}
 			}
 		   
@@ -51,15 +51,12 @@ class ExtmoldsController extends Controller
 		  $this->customconf = $customconf;
 		  $this->classtypetree =  get_classtype_tree();
 		  $m = 1;
-			if(isset($_SESSION['terminal'])){
-				$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
-			}else{
-				$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
-			}
-			if($m){
+			if(isMobile() && $webconf['iswap']==1){
 				$classtypedata = classTypeDataMobile();
+				$m = 1;
 			}else{
 				$classtypedata = classTypeData();
+				$m = 0;
 			}
 			
 			$this->classtypedata = getclasstypedata($classtypedata,$m);
@@ -196,6 +193,11 @@ class ExtmoldsController extends Controller
 			}else if($this->frparam('keywords',1)){
 				$data['tags'] = ','.str_replace('，',',',$this->frparam('keywords',1)).',';
 			}
+			if($this->admin['isadmin']==1 || ($this->admin['isadmin']!=1 && $this->admin['ischeck']==0)){
+				$data['isshow'] = $this->frparam('isshow',0,1);
+			}else{
+				$data['isshow'] = 0;
+			}
 			$r = M($molds)->add($data);
 			if($r){
 				//tags处理
@@ -281,6 +283,11 @@ class ExtmoldsController extends Controller
 					$data['tags'] = ','.str_replace('，',',',$this->frparam('keywords',1)).',';
 				}
 				$old_tags = M($molds)->getField(['id'=>$this->frparam('id')],'tags');
+				if($this->admin['isadmin']==1 || ($this->admin['isadmin']!=1 && $this->admin['ischeck']==0)){
+					$data['isshow'] = $this->frparam('isshow',0,1);
+				}else{
+					$data['isshow'] = 0;
+				}
 				if(M($molds)->update(array('id'=>$this->frparam('id')),$data)){
 					
 					if($old_tags!=$data['tags']){

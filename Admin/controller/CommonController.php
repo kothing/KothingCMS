@@ -32,9 +32,9 @@ class CommonController extends Controller
 			   $ac = M('Ruler')->find(array('fc'=>$action));
 			   if($this->frparam('ajax')){
 				   
-				   JsonReturn(['code'=>1,'msg'=>'您没有【'.$ac['name'].'】的权限！','url'=>U('Index/index')]);
+				   JsonReturn(['code'=>1,'msg'=>'您没有【'.$ac['name'].'】的权限！','url'=>U('Index/welcome')]);
 			   }
-			   Error('您没有【'.$ac['name'].'】的权限！',U('Index/index'));
+			   Error('您没有【'.$ac['name'].'】的权限！',U('Index/welcome'));
 			}
 		}
        
@@ -52,17 +52,13 @@ class CommonController extends Controller
 	  $customconf = get_custom();
 	  $this->customconf = $customconf;
 	  $this->classtypetree =  get_classtype_tree();
-	  
-		$m = 1;
-		if(isset($_SESSION['terminal'])){
-			$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
-		}else{
-			$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
-		}
-		if($m){
+	  $m = 1;
+		if(isMobile() && $webconf['iswap']==1){
 			$classtypedata = classTypeDataMobile();
+			$m = 1;
 		}else{
 			$classtypedata = classTypeData();
+			$m = 0;
 		}
 		
 		$this->classtypedata = getclasstypedata($classtypedata,$m);

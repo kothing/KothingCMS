@@ -2,13 +2,13 @@
 
 /**
  * ************
- * FrSession类  重写session机制
+ * FrameworkSession类  重写session机制
  * 将session存到redis数据库中
  * ************
  */
  
 
-class FrSession implements SessionHandlerInterface
+class FrameworkSession implements SessionHandlerInterface
 {
 
     private $save_handle = '';

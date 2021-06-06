@@ -14,7 +14,7 @@
 	        <div class="card">
 	            <div class="card-body">
 					<!--body-->
-					<form class="track_form row was-validated" action="?act=step1" method="post" id="contactForm">
+					<form class="track_form row" action="?act=step1" method="post" id="contactForm">
 	                <!--textarea class="form-control" rows="15" readonly="readonly"-->
 						<div class="border p-3" style="overflow-y:auto;height:300px;">
 							<div class="m-3">

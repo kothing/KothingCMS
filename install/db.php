@@ -2,7 +2,7 @@
 MySQL Database Backup Tools
 Server:127.0.0.1:3306
 Database:1dev164
-Data:2019-12-31 17:52:06
+Data:2020-01-01 00:00:00
 */
 SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
@@ -20,7 +20,7 @@ CREATE TABLE `k_article` (
   `seo_title` varchar(255) DEFAULT NULL,
   `userid` int(11) NOT NULL DEFAULT '0',
   `litpic` varchar(255) DEFAULT NULL,
-  `body` text,
+  `body` mediumtext  DEFAULT NULL,
   `addtime` int(11) NOT NULL DEFAULT '0',
   `orders` int(4) NOT NULL DEFAULT '0',
   `hits` int(11) NOT NULL DEFAULT '0',
@@ -207,8 +207,7 @@ CREATE TABLE `k_level` (
   `regtime` int(11) NOT NULL DEFAULT '0',
   `logintime` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `logintime` (`logintime`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Table structure for k_level_group
@@ -218,6 +217,7 @@ CREATE TABLE `k_level_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `isadmin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否管理员，最高权限，无视控制器限制',
+  `ischeck` tinyint(1) NOT NULL DEFAULT '0',
   `classcontrol` tinyint(1) NOT NULL DEFAULT '0',
   `paction` text COMMENT '动作参数，控制器/方法，如Admin/index',
   `tids` text,
@@ -449,7 +449,7 @@ CREATE TABLE `k_product` (
   `pictures` text COMMENT '图集',
   `isshow` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1显示,0不显示',
   `comment_num` int(11) NOT NULL DEFAULT '0',
-  `body` text COMMENT '内容',
+  `body` mediumtext  DEFAULT NULL,
   `userid` int(11) NOT NULL DEFAULT '0' COMMENT '录入管理员',
   `orders` int(11) NOT NULL DEFAULT '0',
   `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
@@ -1079,6 +1079,8 @@ INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('11
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('114','closehomevercode','前台验证码', '关闭后，登录注册不需要验证码','0','0');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('115','closeadminvercode','后台验证码', '关闭后，后台管理员登录不需要验证码','0','0');
 INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('116','tag_table','TAG包含模型', '在tag列表上查询的相关模型,多个模型标识可用|分割,如：article|product','0','article|product');
+INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('117','paydata','支付配置', NULL,'0',NULL);
+INSERT INTO `k_sysconfig` (`id`,`field`,`title`,`tip`,`type`,`data`) VALUES ('118','isopendmf','支付宝当面付', NULL,'0','1');
 -- ----------------------------
 -- Records of k_tags
 -- ----------------------------

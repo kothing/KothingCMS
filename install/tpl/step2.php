@@ -85,28 +85,28 @@
 										<td>数据库名称:</td>
 										<td>
 											<input type="text" class="text" id="name" name="name" value="kothing<?php echo mt_rand(1000,9999);?>" placeholder="kothing" />
-											<label class="normal nameinfo">本地自动创建，服务器空间需要超级管理员账户，否则需要手动填写</label>
-										</td>
-									  </tr>
-									   <tr>
-										<td>数据库表前缀:</td>
-										<td>
-											<input type="text" class="text" id="prefix" name="prefix" value="k_" placeholder="k_" />
-											<label class="normal nameinfo">一般不改</label>
+											<label class="normal nameinfo">自动创建，服务器空间需要超级管理员账户，否则需要手动填写</label>
 										</td>
 									  </tr>
 									  <tr>
 										<td>数据库帐号:</td>
 										<td>
 											<input type="text" class="text" id="user" name="user" value=""  placeholder=""/>
-											<label class="normal userinfo">请查看服务器上分配的账户</label>
+											<label class="normal userinfo">数据库帐号</label>
 										</td>
 									  </tr>
 									  <tr>
 										<td>数据库密码:</td>
 										<td>
 											<input type="password" class="text" id="password" name="password" value="" />
-											<label class="normal passwordinfo">请查看服务器上分配的登录密码</label>
+											<label class="normal passwordinfo">数据库密码</label>
+										</td>
+									  </tr>
+									  <tr>
+										<td>数据库表前缀:</td>
+										<td>
+											<input type="text" class="text" id="prefix" name="prefix" value="k_" placeholder="k_" />
+											<label class="normal nameinfo">数据库表前缀</label>
 										</td>
 									  </tr>
 								</tbody>
@@ -139,7 +139,7 @@
 										<td>确认密码:</td>
 										<td>
 											<input type="password" class="text" name="admin_repass" id="repassword" maxlength="20" value="" />
-											<label class="normal">和密码保持一致</label>
+											<label class="normal">确认密码</label>
 										</td>
 									</tr>
 								</tbody>
@@ -203,16 +203,15 @@
 			if($.trim(name)==''){
 				layer.alert("请填写数据库名字!");$("#name").focus();return false;
 			}
-			if($.trim(prefix)==''){
-				check=false;layer.alert("请填写数据库表前缀!");$("#prefix").focus();return false;
-			}
 			if($.trim(user)==''){
 				check=false;layer.alert("请填写数据库用户名!");$("#user").focus();return false;
 			}
 			if($.trim(password)==''){
 				check=false;layer.alert("请填写数据库密码!");$("#password").focus();return false;
 			}
-			
+			if($.trim(prefix)==''){
+				check=false;layer.alert("请填写数据库表前缀!");$("#prefix").focus();return false;
+			}
 			$.ajax({
 				url:"?act=testdb",
 				type:'POST',
@@ -262,14 +261,14 @@
 			if($.trim(name)==''){
 				layer.alert("请填写数据库名字!");$("#name").focus();return false;
 			}
-			if($.trim(prefix)==''){
-				check=false;layer.alert("请填写数据库表前缀!");$("#prefix").focus();return false;
-			}
 			if($.trim(user)==''){
 				check=false;layer.alert("请填写数据库用户名!");$("#user").focus();return false;
 			}
 			if($.trim(password)==''){
 				check=false;layer.alert("请填写数据库密码!");$("#password").focus();return false;
+			}
+			if($.trim(prefix)==''){
+				check=false;layer.alert("请填写数据库表前缀!");$("#prefix").focus();return false;
 			}
 			$.ajax({
 				url:"?act=testdb",

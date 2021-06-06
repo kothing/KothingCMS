@@ -106,16 +106,13 @@
               {foreach $v['nav'] as $vv} {if($vv)}
               <li>
                 {if(strpos($vv,'class')!==false)}
-                <a _href="{$classnav[$vv]['act']}"
-                  ><cite>{$classnav[$vv]['classname']}</cite></a
-                >
+                <a _href="{$classnav[$vv]['act']}"><cite>{$classnav[$vv]['classname']}</cite></a>
                 {else}
-                <a _href="{fun U($actions[$vv]['fc'])}"
-                  ><cite>{$actions[$vv]['name']}</cite></a
-                >
+                <a _href="{fun U($actions[$vv]['fc'])}"><cite>{$actions[$vv]['name']}</cite></a>
                 {/if}
               </li>
-              {/if} {/foreach}
+              {/if}
+			        {/foreach}
             </ul>
           </li>
 

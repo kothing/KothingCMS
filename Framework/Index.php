@@ -110,7 +110,7 @@ class Framework
 			//开启SESSION,并设置600s缓存时间
 			//start_session(SessionTime);
 			
-			$session = new \FrSession(array('save_path'=>Session_Path,'life_time'=>SessionTime));
+			$session = new \FrameworkSession(array('save_path'=>Session_Path,'life_time'=>SessionTime));
 			session_set_save_handler($session,true);
 			if (!isset($_COOKIE['PHPSESSID'])) {
 				session_set_cookie_params(SessionTime);

@@ -97,24 +97,19 @@ function get_template(){
 					}
 				}
 			}
-			if(isset($_SESSION['terminal'])){
-				$template = ($_SESSION['terminal']=='mobile' && $webconf['iswap']==1) ? (isWeixin() ? $wechat : $wap) : $pc;
-			}else{
-				
-				//当前端口检测
-				if($webconf['iswap']==1 && isMobile()){
-					$template = $wap;
-					//wap
-					if(isWeixin()){
-						//wechat
-						$template = $wechat;
-					}
-					
-					
-				}else{
-					//pc
-					$template = $pc;
+			//当前端口检测
+			if($webconf['iswap']==1 && isMobile()){
+				$template = $wap;
+				//wap
+				if(isWeixin()){
+					//wechat
+					$template = $wechat;
 				}
+				
+				
+			}else{
+				//pc
+				$template = $pc;
 			}
 			
 			
@@ -130,21 +125,15 @@ function get_template(){
 		
 	}
 	if($isgo){
-		if(isset($_SESSION['terminal'])){
-			$wechat = ($webconf['weixin_template']!='')?$webconf['weixin_template']:$webconf['wap_template'];
-			$template = ($_SESSION['terminal']=='mobile' && $webconf['iswap']==1) ? (isWeixin() ? $wechat : $webconf['wap_template']) : $webconf['pc_template'];
-		}else{
-			if($webconf['iswap']==1 && isMobile()){
-				if(isWeixin()){
-					$template = ($webconf['weixin_template']!='')?$webconf['weixin_template']:$webconf['wap_template'];
-				}else{
-					$template = $webconf['wap_template'];
-				}
-				
+		if($webconf['iswap']==1 && isMobile()){
+			if(isWeixin()){
+				$template = ($webconf['weixin_template']!='')?$webconf['weixin_template']:$webconf['wap_template'];
 			}else{
-				$template = $webconf['pc_template'];
+				$template = $webconf['wap_template'];
 			}
 			
+		}else{
+			$template = $webconf['pc_template'];
 		}
 		
 	}
@@ -704,7 +693,7 @@ layui.use("laydate", function(){
 			 break;
 			 case 13:
 			  $body = explode(',',$v['body']);
-			  $moldsdata = M('molds')->find(['id'=>$body[0]],'');
+			  $moldsdata = M('molds')->find(['id'=>$body[0]]);
 			  $datalist = M($moldsdata['biaoshi'])->findAll();
 			 $fields_search .= '<div class="layui-input-inline">
 			  <select name="'.$v['field'].'" lay-search="" class="layui-inline">
@@ -947,13 +936,10 @@ function gourl($id,$htmlurl=null,$molds='article'){
 				}
 			}
 			$id = $value['id'];
+			$htmlurl = $value['htmlurl'];
 		}
 		if(!$id){Error_msg('缺少ID！');}
-		if(isset($_SESSION['terminal'])){
-			$htmlpath = $_SESSION['terminal']=='mobile' ? webConf('mobile_html') : webConf('pc_html');
-		}else{
-			$htmlpath = (isMobile() && webConf('iswap')==1)?webConf('mobile_html'):webConf('pc_html');
-		}
+		$htmlpath = (isMobile() && webConf('iswap')==1)?webConf('mobile_html'):webConf('pc_html');
 		$htmlpath = ($htmlpath=='' || $htmlpath=='/') ? '' : '/'.$htmlpath; 
 		if($htmlurl!=null){
 			return get_domain().$htmlpath.'/'.$htmlurl.'/'.$id.'.html';
@@ -981,11 +967,7 @@ function all_url($id,$molds='article',$htmlurl=null){
 		$id = $value['id'];
 	}
 	if(!$id){Error_msg('缺少ID！');}
-		if(isset($_SESSION['terminal'])){
-			$htmlpath = $_SESSION['terminal']=='mobile' ? webConf('mobile_html') : webConf('pc_html');
-		}else{
-			$htmlpath = isMobile() && webConf('isopen')?webConf('mobile_html'):webConf('pc_html');
-		}
+		$htmlpath = isMobile() && webConf('isopen')?webConf('mobile_html'):webConf('pc_html');
 		$htmlpath = ($htmlpath=='' || $htmlpath=='/') ? '' : '/'.$htmlpath; 
 		if($htmlurl!=null){
 			$file_txt = File_TXT_HIDE ? '' : File_TXT;
@@ -1771,11 +1753,7 @@ function k_cachedata($field){
 		$res = M('cachedata')->find(['field'=>$field]);
 		
 		if($res['isall'] && $res['tid']){
-			if(isset($_SESSION['terminal'])){
-				$classtypedata = $_SESSION['terminal']=='mobile' ? classTypeDataMobile() : classTypeData();
-			}else{
-				$classtypedata = (isMobile() && $webconf['iswap']==1)?classTypeDataMobile():classTypeData();
-			}
+			$classtypedata = (isMobile() && $webconf['iswap']==1)?classTypeDataMobile():classTypeData();
 			foreach($classtypedata as $k=>$v){
 				$classtypedata[$k]['children'] = get_children($v,$classtypedata);
 			}
@@ -1826,11 +1804,8 @@ function getclasstypedata($array,$m=1){
 function k_tpldata(){
 	$tpldata = getCache('tpldata');
 	if(!$tpldata){
-		if(isset($_SESSION['terminal'])){
-			$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
-		}else{
-			$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
-		}
+		$webconf = webConf();
+		$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
 		if($m){
 			$classtypedata = classTypeDataMobile();
 		}else{
@@ -1898,11 +1873,8 @@ function k_tpldata(){
 function k_tpldatafield(){
     $tpldata = getCache('tpldata');
     if(!$tpldata){
-		if(isset($_SESSION['terminal'])){
-			$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
-		}else{
-			$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
-		}
+		$webconf = webConf();
+		$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
 		if($m){
 			$classtypedata = classTypeDataMobile();
 		}else{

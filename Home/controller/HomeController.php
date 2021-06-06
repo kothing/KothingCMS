@@ -25,6 +25,7 @@ class HomeController extends CommonController
 			$this->error('链接错误！');
 		}
 		$url = current_url();
+		$this->ishome = true;
 		$cache_file = APP_PATH.'cache/data/'.md5($url);
 		$this->cache_file = $cache_file;
 		$this->start_cache($cache_file);
@@ -47,7 +48,7 @@ class HomeController extends CommonController
 		if($url=='' || $url=='/' || $url=='index.php' || $url=='index'.File_TXT){
 			$this->index();exit;
 		}
-		
+		$this->ishome = false;
 		//检查缓存
 		$cache_file = APP_PATH.'cache/data/'.md5($request_url);
 		$this->cache_file = $cache_file;
@@ -973,6 +974,7 @@ class HomeController extends CommonController
 			
 			exit;
 		}
+		header("HTTP/1.0 404");
 		$this->display($this->template.'/404');
 		$this->end_cache($this->cache_file);
 		exit;

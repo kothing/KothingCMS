@@ -26,15 +26,12 @@ class CommonController extends Controller
 			$this->close();
 		}
 		$m = 1;
-		if(isset($_SESSION['terminal'])){
-			$m = $_SESSION['terminal']=='mobile' ? 1 : 0;
-		}else{
-			$m = (isMobile() && $webconf['iswap']==1) ? 1 : 0;
-		}
-		if($m){
+		if(isMobile() && $webconf['iswap']==1){
 			$classtypedata = classTypeDataMobile();
+			$m = 1;
 		}else{
 			$classtypedata = classTypeData();
+			$m = 0;
 		}
 		$this->classtypetree = $classtypedata;
 		$this->classtypedata = getclasstypedata($classtypedata,$m);
@@ -924,10 +921,12 @@ class CommonController extends Controller
 		
 	
 	function kothing(){
+		header("HTTP/1.0 404");
 		$this->display($this->template.'/404');
 		exit;
 	}
 	function error($msg){
+		header("HTTP/1.0 404");
 		$this->display($this->template.'/404');
 		exit;
 	}

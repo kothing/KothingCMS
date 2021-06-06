@@ -2,7 +2,7 @@
 MySQL Database Backup Tools
 Server:127.0.0.1:3306
 Database:k164test
-Data:2019-12-31 19:12:45
+Data:2021-01-01 00:00:00
 */
 SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
@@ -20,7 +20,7 @@ CREATE TABLE `k_article` (
   `seo_title` varchar(255) DEFAULT NULL,
   `userid` int(11) NOT NULL DEFAULT '0',
   `litpic` varchar(255) DEFAULT NULL,
-  `body` text,
+  `body` mediumtext  DEFAULT NULL,
   `addtime` int(11) NOT NULL DEFAULT '0',
   `orders` int(4) NOT NULL DEFAULT '0',
   `hits` int(11) NOT NULL DEFAULT '0',
@@ -88,8 +88,8 @@ CREATE TABLE `k_classtype` (
 DROP TABLE IF EXISTS `k_collect`;
 CREATE TABLE `k_collect` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) DEFAULT NULL,
-  `description` varchar(200) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `tid` int(11) DEFAULT NULL,
   `litpic` varchar(255) DEFAULT NULL,
   `w` varchar(10) NOT NULL DEFAULT '0',
@@ -207,8 +207,7 @@ CREATE TABLE `k_level` (
   `regtime` int(11) NOT NULL DEFAULT '0',
   `logintime` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `logintime` (`logintime`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Table structure for k_level_group
@@ -218,6 +217,7 @@ CREATE TABLE `k_level_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `isadmin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否管理员，最高权限，无视控制器限制',
+  `ischeck` tinyint(1) NOT NULL DEFAULT '0',
   `classcontrol` tinyint(1) NOT NULL DEFAULT '0',
   `paction` text COMMENT '动作参数，控制器/方法，如Admin/index',
   `tids` text,
@@ -449,7 +449,7 @@ CREATE TABLE `k_product` (
   `pictures` text COMMENT '图集',
   `isshow` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1显示,0不显示',
   `comment_num` int(11) NOT NULL DEFAULT '0',
-  `body` text COMMENT '内容',
+  `body` mediumtext  DEFAULT NULL,
   `userid` int(11) NOT NULL DEFAULT '0' COMMENT '录入管理员',
   `orders` int(11) NOT NULL DEFAULT '0',
   `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
@@ -493,7 +493,7 @@ CREATE TABLE `k_sysconfig` (
   `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '配置类型,0系统配置,1图片类型,2输入框,3简短文字',
   `data` text COMMENT '配置内容',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Table structure for k_tags
 -- ----------------------------

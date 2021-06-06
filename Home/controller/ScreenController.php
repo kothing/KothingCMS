@@ -72,7 +72,6 @@ class ScreenController extends CommonController
 					$newarray[]=$v;
 					$parent = $v;
 				}
-				$parent = $v;
 			}
 		}
 		$newarray2 = array_reverse($newarray);
@@ -231,18 +230,6 @@ class ScreenController extends CommonController
 	
 		$this->display($this->template.'/'.$res['molds'].'/'.$res['lists_html']);
 		
-		
-		
-		
-		
-		
-	}
-
-	
-	//错误页面
-	function error($msg){
-		$this->display($this->template.'/404');
-		exit;
 	}
 
 	
